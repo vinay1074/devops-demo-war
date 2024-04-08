@@ -10,12 +10,25 @@
     <servlet>
         <servlet-name>infoservlet</servlet-name>
         <servlet-class>com.ak.servlet.InfoServlet</servlet-class>
+        <servlet-name>healthcheckservlet</servlet-name>
+        <servlet-class>com.ak.servlet.HealthCheckServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>infoservlet</servlet-name>
         <url-pattern>/infoservlet</url-pattern>
+        <servlet-name>healthcheckservlet</servlet-name>
+        <url-pattern>/health</url-pattern>
     </servlet-mapping>
     <welcome-file-list>
         <welcome-file>index.jsp</welcome-file>
     </welcome-file-list>
 </web-app>
+
+<servlet>
+    <servlet-name>HealthServlet</servlet-name>
+    <servlet-class>com.example.HealthServlet</servlet-class>
+</servlet>
+<servlet-mapping>
+    <servlet-name>HealthServlet</servlet-name>
+    <url-pattern>/health</url-pattern>
+</servlet-mapping>
