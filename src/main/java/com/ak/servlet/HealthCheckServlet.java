@@ -4,7 +4,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Timer;
 import java.util.TimerTask;
-
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet("/health")
 public class HealthCheckServlet extends HttpServlet {
     
+    private static final Logger logger = Logger.getLogger(HealthCheckServlet.class.getName());
     private static final long serialVersionUID = 1L;
     private static final long HEALTH_CHECK_INTERVAL = 30000; // Health check interval in milliseconds
     private boolean isHealthy = true; // Initial health status
@@ -29,6 +30,8 @@ public class HealthCheckServlet extends HttpServlet {
     
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
+        logger.info("Outgoing response to " + req.getRemoteAddr() + ":" + req.getRemotePort() + " with " + resp.getStatus() + " status code");
         resp.setContentType("text/plain");
         
         if (isHealthy) {
