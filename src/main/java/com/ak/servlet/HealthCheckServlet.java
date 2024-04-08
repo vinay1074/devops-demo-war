@@ -1,5 +1,7 @@
 package com.ak.servlet;
 import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -42,24 +44,28 @@ public class HealthCheckServlet extends HttpServlet {
         @Override
         public void run() {
             // Perform health check here
-            // Example: check database connection, external service availability, etc.
-            boolean isDatabaseHealthy = checkDatabaseHealth();
-            boolean isServiceHealthy = checkExternalServiceHealth();
-            
-            // Update overall health status based on individual checks
-            isHealthy = isDatabaseHealthy && isServiceHealthy;
+            boolean isSuccess = performHealthCheck();
+            isHealthy = isSuccess;
         }
         
-        // Example method to check database health
-        private boolean checkDatabaseHealth() {
-            // Implement your database health check logic here
-            return true; // Assuming it's healthy for the example
-        }
-        
-        // Example method to check external service health
-        private boolean checkExternalServiceHealth() {
-            // Implement your external service health check logic here
-            return true; // Assuming it's healthy for the example
+        private boolean performHealthCheck() {
+            HttpURLConnection connection = null;
+            try {
+                // Example: Check an external service health
+                URL url = new URL("http://localhost:8080/health"); // Replace with your endpoint
+                connection = (HttpURLConnection) url.openConnection();
+                connection.setRequestMethod("GET");
+                
+                int responseCode = connection.getResponseCode();
+                
+                return responseCode >= 200 && responseCode < 400;
+            } catch (IOException e) {
+                return false;
+            } finally {
+                if (connection != null) {
+                    connection.disconnect();
+                }
+            }
         }
     }
 }
